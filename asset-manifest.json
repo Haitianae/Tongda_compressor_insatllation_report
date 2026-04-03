@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Tongda_compressor_insatllation_report/static/css/main.3f3dc4b6.css",
+    "main.js": "/Tongda_compressor_insatllation_report/static/js/main.64363f13.js",
+    "static/js/239.37bdb40c.chunk.js": "/Tongda_compressor_insatllation_report/static/js/239.37bdb40c.chunk.js",
+    "static/js/977.1ca42b18.chunk.js": "/Tongda_compressor_insatllation_report/static/js/977.1ca42b18.chunk.js",
+    "static/js/667.381287d6.chunk.js": "/Tongda_compressor_insatllation_report/static/js/667.381287d6.chunk.js",
+    "static/js/453.12383195.chunk.js": "/Tongda_compressor_insatllation_report/static/js/453.12383195.chunk.js",
+    "static/media/TongdaBanner.jpg": "/Tongda_compressor_insatllation_report/static/media/TongdaBanner.fd3d16c766cc1a4ce68d.jpg",
+    "static/media/TongdaMiddleEastLogo.png": "/Tongda_compressor_insatllation_report/static/media/TongdaMiddleEastLogo.9424ac52f3169a19c223.png",
+    "index.html": "/Tongda_compressor_insatllation_report/index.html",
+    "main.3f3dc4b6.css.map": "/Tongda_compressor_insatllation_report/static/css/main.3f3dc4b6.css.map",
+    "main.64363f13.js.map": "/Tongda_compressor_insatllation_report/static/js/main.64363f13.js.map",
+    "239.37bdb40c.chunk.js.map": "/Tongda_compressor_insatllation_report/static/js/239.37bdb40c.chunk.js.map",
+    "977.1ca42b18.chunk.js.map": "/Tongda_compressor_insatllation_report/static/js/977.1ca42b18.chunk.js.map",
+    "667.381287d6.chunk.js.map": "/Tongda_compressor_insatllation_report/static/js/667.381287d6.chunk.js.map",
+    "453.12383195.chunk.js.map": "/Tongda_compressor_insatllation_report/static/js/453.12383195.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3f3dc4b6.css",
+    "static/js/main.64363f13.js"
+  ]
+}
