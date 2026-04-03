@@ -321,3 +321,8 @@ width:30% !important;
 .loginButton:hover {
   transform: scale(1.02); /* Subtle, clean zoom */
 }
+
+.error-row {
+  background: #ffecec !important;
+  transition: 0.3s;
+}
