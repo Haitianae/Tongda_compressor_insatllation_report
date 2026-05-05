@@ -122,8 +122,8 @@ export default function Installationform({ onLogout, user }) {
   const sigEditManager = useRef();
   const sigEditCustomer = useRef();
 
-  console.log("customerOptions:", customerOptions);
-  console.log("customerDataList:", customerDataList);
+  // console.log("customerOptions:", customerOptions);
+  // console.log("customerDataList:", customerDataList);
 
   const [machineRegistryLoading, setMachineRegistryLoading] = useState(false);
   const machineRegistryColumns = [
@@ -155,7 +155,7 @@ export default function Installationform({ onLogout, user }) {
   };
 
   const GAS_URL =
-    "https://script.google.com/macros/s/AKfycby5kltf2lG22accngc-rEdtmTt2PEhBDQz7zrJLT6MBq1giSi0CV0r28aL_uI-EAXuscw/exec";
+    "https://script.google.com/macros/s/AKfycbx1yV-m5yAseDHi6yOsnxf_I6QDfX6Rh7SdIdsus4yf4UrMbmwxwlUKzZK-C7QJy-mu/exec";
 
   const styl = `.ant-modal-root .ant-modal {
     width: var(--ant-modal-xs-width);
@@ -192,7 +192,7 @@ export default function Installationform({ onLogout, user }) {
         // const result = await response.json();
 
         const text = await response.text();
-const result = JSON.parse(text);
+        const result = JSON.parse(text);
 
         if (result.success) {
           notification.success({
@@ -247,7 +247,7 @@ const result = JSON.parse(text);
   // };
 
   const handleDownloadInstallationPDF = async (srn) => {
-    console.log("SRN received:", srn);
+    // console.log("SRN received:", srn);
     setDownloadLoader(true);
 
     if (!srn) {
@@ -342,14 +342,14 @@ const result = JSON.parse(text);
 
       if (result.success) {
         setCustomerDataList(result.customers || []);
-        console.log("TOTAL ROWS:", result.customers.length);
+        // console.log("TOTAL ROWS:", result.customers.length);
 
         setCustomerOptions([]);
       } else {
         message.error("Failed to load customer data");
       }
     } catch (error) {
-      console.error("Error fetching customer data:", error);
+      // console.error("Error fetching customer data:", error);
       message.error("Error fetching customer data");
     }
   };
@@ -776,7 +776,7 @@ const result = JSON.parse(text);
 
           setMachineRegistryData(sorted);
 
-          console.log("Machine Registry Data:", machineRegistryData);
+          // console.log("Machine Registry Data:", machineRegistryData);
 
           notification.success({
             message: "Success",
@@ -2571,7 +2571,7 @@ const result = JSON.parse(text);
     try {
       await uploadInstallationPdfToDrive(pdfBlob, fileName);
     } catch (err) {
-      console.warn("Drive upload failed:", err);
+      // console.warn("Drive upload failed:", err);
     }
 
     doc.save(fileName);
@@ -3234,7 +3234,7 @@ const result = JSON.parse(text);
     );
     nextY += 17;
 
-   addSectionTitle("Compressor Maintenance – Customer Care Guidelines");
+    addSectionTitle("Compressor Maintenance – Customer Care Guidelines");
 
     const selectedMaintenance = values.compressorMaintenance || [];
     doc.setFont("ZapfDingbats");
@@ -3283,19 +3283,18 @@ const result = JSON.parse(text);
       }
     });
 
-
     // ===== PAGE 3/4: Compressor Maintenance – Customer Care Guidelines =====
     drawFooter();
     doc.addPage();
     drawHeader();
     nextY = 27;
 
-       // ===== Observations & Remarks =====
+    // ===== Observations & Remarks =====
     addSectionTitle("Observations & Remarks");
     nextY += 3;
     addParagraph(values.observationRemarks);
     nextY += 20;
-   
+
     nextY += 40;
     // ===== Customer Confirmation Text =====
     addSectionTitle("Customer Confirmation");
@@ -4505,10 +4504,49 @@ const result = JSON.parse(text);
                               <Upload
                                 showUploadList={false}
                                 accept="image/png, image/jpeg"
-                                beforeUpload={(file) => {
+                                // beforeUpload={(file) => {
+                                //   handleManagerSignUpload({ file });
+                                //   return false;
+                                // }}
+
+                                    beforeUpload={(file) => {
+                                  if (!file || !file.type) {
+                                    return Upload.LIST_IGNORE;
+                                  }
+
+                                  // ✅ Only PNG
+                                  const isPng =
+                                    file.type === "image/png" ||
+                                    file.name.toLowerCase().endsWith(".png");
+
+                                  if (!isPng) {
+                                    notification.error({
+                                      message: "Invalid File Type",
+                                      description:
+                                        "Only PNG files are allowed!",
+                                      placement: "bottomRight",
+                                    });
+                                    return Upload.LIST_IGNORE;
+                                  }
+
+                                  // ✅ Max 500 KB
+                                  const isLt500KB = file.size / 1024 < 500;
+
+                                  if (!isLt500KB) {
+                                    notification.error({
+                                      message: "File Too Large",
+                                      description:
+                                        "Signature must be smaller than 500 KB!",
+                                      placement: "bottomRight",
+                                    });
+                                    return Upload.LIST_IGNORE;
+                                  }
+
                                   handleManagerSignUpload({ file });
                                   return false;
                                 }}
+
+
                                 className="d-flex "
                               >
                                 <Button
@@ -5251,11 +5289,12 @@ const result = JSON.parse(text);
                   <Input
                     placeholder="DD-MM-YYYY"
                     value={editForm.getFieldValue("dateOfInstallation") || ""}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const formatted = formatDDMMYYYY(e.target.value);
                       editForm.setFieldsValue({
-                        dateOfInstallation: e.target.value,
-                      })
-                    }
+                        dateOfInstallation: formatted,
+                      });
+                    }}
                   />
                 </Form.Item>
               </div>
@@ -5456,11 +5495,12 @@ const result = JSON.parse(text);
                   <Input
                     placeholder="DD-MM-YYYY"
                     value={editForm.getFieldValue("dateOfCommissioning") || ""}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const formatted = formatDDMMYYYY(e.target.value);
                       editForm.setFieldsValue({
-                        dateOfCommissioning: e.target.value,
-                      })
-                    }
+                        dateOfCommissioning: formatted,
+                      });
+                    }}
                   />
                 </Form.Item>
 
@@ -5786,10 +5826,47 @@ const result = JSON.parse(text);
                         <Upload
                           showUploadList={false}
                           accept="image/png, image/jpeg"
-                          beforeUpload={(file) => {
+                          // beforeUpload={(file) => {
+                          //   handleEditManagerSignUpload({ file });
+                          //   return false;
+                          // }}
+
+                             beforeUpload={(file) => {
+                            if (!file || !file.type) {
+                              return Upload.LIST_IGNORE;
+                            }
+
+                            // ✅ Only PNG
+                            const isPng =
+                              file.type === "image/png" ||
+                              file.name.toLowerCase().endsWith(".png");
+
+                            if (!isPng) {
+                              notification.error({
+                                message: "Invalid File Type",
+                                description: "Only PNG files are allowed!",
+                                placement: "bottomRight",
+                              });
+                              return Upload.LIST_IGNORE;
+                            }
+
+                            // ✅ Max 500 KB
+                            const isLt500KB = file.size / 1024 < 500;
+
+                            if (!isLt500KB) {
+                              notification.error({
+                                message: "File Too Large",
+                                description:
+                                  "Signature must be smaller than 500 KB!",
+                                placement: "bottomRight",
+                              });
+                              return Upload.LIST_IGNORE;
+                            }
+
                             handleEditManagerSignUpload({ file });
                             return false;
                           }}
+
                           className="d-flex "
                         >
                           <Button
